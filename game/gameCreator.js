@@ -1,16 +1,15 @@
-(function () {
-	"use strict";
-	var ploxfight = window.ploxfight = window.ploxfight || {};
+var game = require('./game');
 
-	ploxfight.gameTest = function () {
-		var eventTrigger = function (game) {
-			//TODO: denna ska gå på tid, inte tics...
-			if (game.tic.ticCount % 100 === 0) {
-				game.opponents.push(this.newOpponent());
-			}
-		};
-
-		return new ploxfight.Game(eventTrigger);
+var create = function (gameHolder) {
+	var eventTrigger = function (game) {
+		//TODO: denna ska gå på tid, inte tics...
+		//if (game.tic.ticCount % 100 === 0) {
+		//	game.opponents.push(this.newOpponent());
+		//}
 	};
 
-})();
+	return new game.newGame(gameHolder, eventTrigger);
+};
+
+
+exports.create = create;

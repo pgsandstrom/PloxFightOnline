@@ -1,6 +1,11 @@
 (function () {
 	var ploxfight = window.ploxfight = window.ploxfight || {};
 
+	ploxfight.shape = {};
+	ploxfight.shape.SQUARE = "SQUARE";
+	ploxfight.shape.CIRCLE = "CIRCLE";
+	ploxfight.shape.LINE = "LINE";
+
 	var PLAYER_IMAGE_SIZE = 50;
 	var BARREL_IMAGE_SIZE = 50;
 
@@ -30,9 +35,8 @@
 	var image_water = document.getElementById('water');
 	var image_barrel = document.getElementById('barrel');
 
-	ploxfight.Renderer = function Renderer(game) {
+	ploxfight.Renderer = function Renderer() {
 		this.startTime = Date.now();
-		this.game = game;
 	};
 
 	var Renderer = ploxfight.Renderer;
@@ -58,7 +62,8 @@
 		repeater(0);
 	};
 
-	Renderer.prototype.render = function () {
+	Renderer.prototype.render = function (game) {
+		this.game = game;
 		var board = this.game.board;
 
 		for (var y = 0; y < board.length; y++) {
@@ -96,11 +101,14 @@
 			}
 		}
 
-		this.renderDude(this.game.player, 1);
+		for (var i = 0; i < this.game.players.length; i++) {
+			var player = this.game.players[i];
+			this.renderDude(player);
+		}
 
 		for (var i = 0; i < this.game.opponents.length; i++) {
 			var dude = this.game.opponents[i];
-			this.renderDude(dude, i + 2);
+			this.renderDude(dude);
 		}
 
 		for (var i = 0; i < this.game.barrels.length; i++) {
@@ -126,7 +134,7 @@
 		renderObject(barrel, image_barrel, BARREL_IMAGE_SIZE);
 	};
 
-	Renderer.prototype.renderDude = function (dude, dudeIndex) {
+	Renderer.prototype.renderDude = function (dude) {
 		var image;
 		if (dude.tumbleProgress <= 0) {
 			if (dude.id === 0) {
@@ -238,5 +246,73 @@
 		image_opponent_tumbling = new Image();
 		image_opponent_tumbling.src = data;
 		contextTemp.clearRect(0, 0, 50, 50);
+	};
+
+
+	//TODO: Dessa är bara fulinflyttad här från collision.js. Skapa en graphics.js eller nått som vi har både i klient å server?
+	ploxfight.getSquareLines = function (square) {
+		var squareCorners = ploxfight.getSquareCorners(square);
+
+		var result = [];
+		for (var y = 0; y < squareCorners.length; y++) {
+			var first;
+			if (y === 0) {
+				first = squareCorners[squareCorners.length - 1];
+			} else {
+				first = squareCorners[y - 1];
+			}
+			var second = squareCorners[y];
+			result.push(new ploxfight.Line(first, second));
+		}
+		return result;
+	};
+	ploxfight.getSquareCorners = function (object) {
+		var degree = -object.degree;	// WARNING: I use minus here and I'm not sure why it is needed...
+
+		var TLx_pre = -object.shapeWidth / 2;
+		var TLy_pre = -object.shapeHeight / 2;
+		var TLx = object.x + ploxfight.rotateX(TLx_pre, TLy_pre, degree);
+		var TLy = object.y + ploxfight.rotateY(TLx_pre, TLy_pre, degree);
+
+		var TRx_pre = object.shapeWidth / 2;
+		var TRy_pre = -object.shapeHeight / 2;
+		var TRx = object.x + ploxfight.rotateX(TRx_pre, TRy_pre, degree);
+		var TRy = object.y + ploxfight.rotateY(TRx_pre, TRy_pre, degree);
+
+		var BLx_pre = -object.shapeWidth / 2;
+		var BLy_pre = object.shapeHeight / 2;
+		var BLx = object.x + ploxfight.rotateX(BLx_pre, BLy_pre, degree);
+		var BLy = object.y + ploxfight.rotateY(BLx_pre, BLy_pre, degree);
+
+		var BRx_pre = object.shapeWidth / 2;
+		var BRy_pre = object.shapeHeight / 2;
+		var BRx = object.x + ploxfight.rotateX(BRx_pre, BRy_pre, degree);
+		var BRy = object.y + ploxfight.rotateY(BRx_pre, BRy_pre, degree);
+
+		return [
+			{
+				x: TLx,
+				y: TLy
+			},
+			{
+				x: TRx,
+				y: TRy
+			},
+			{
+				x: BRx,
+				y: BRy
+			},
+			{
+				x: BLx,
+				y: BLy
+			}
+		];
+
+	};
+	ploxfight.rotateX = function (x, y, degree) {
+		return x * Math.cos(degree) - y * Math.sin(degree);
+	};
+	ploxfight.rotateY = function (x, y, degree) {
+		return x * Math.sin(degree) + y * Math.cos(degree);
 	};
 })();

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>PloxFight</title>
+	<link rel="stylesheet" href="css/main.css" type="text/css" media="all"/>
+	<script type="text/javascript" src="js/vendor/jquery-1.11.2.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+
+<div>
+	<span>Hejsan! Du styr med WASD och musen!</span>
+	<button id="restart">restart</button>
+</div>
+<img id="test"/>
+
+<div id="canvas-container">
+	<canvas id="canvas" width="800" height="800"></canvas>
+	<canvas id="canvas-temp" width="50" height="50"></canvas>
+</div>
+
+<img id="player" src="img/player.png" alt="" class="resource"/>
+<img id="player-hit" src="img/player-hit.png" alt="" class="resource"/>
+<img id="player-tumbling" src="img/player-tumbling.png" alt="" class="resource"/>
+<img id="tile-1" src="img/tile-1.png" alt="" class="resource"/>
+<img id="tile-2" src="img/tile-2.png" alt="" class="resource"/>
+<img id="tile-3" src="img/tile-3.png" alt="" class="resource"/>
+<img id="tile-breaking-1" src="img/tile-breaking-1.png" alt="" class="resource"/>
+<img id="tile-breaking-2" src="img/tile-breaking-2.png" alt="" class="resource"/>
+<img id="tile-breaking-3" src="img/tile-breaking-3.png" alt="" class="resource"/>
+<img id="tile-breaking-4" src="img/tile-breaking-4.png" alt="" class="resource"/>
+<img id="tile-breaking-5" src="img/tile-breaking-5.png" alt="" class="resource"/>
+<img id="tile-falling-1" src="img/tile-falling-1.png" alt="" class="resource"/>
+<img id="water" src="img/water.png" alt="" class="resource"/>
+<img id="barrel" src="img/barrel.png" alt="" class="resource"/>
+
+
+<script type="text/javascript" src="js/renderer.js"></script>
+<!--<script type="text/javascript" src="js/ai.js"></script>-->
+<script type="text/javascript" src="js/collisionObjects.js"></script>
+<!--<script type="text/javascript" src="js/collisionLine.js"></script>-->
+<script type="text/javascript" src="js/collision.js"></script>
+<!--<script type="text/javascript" src="js/gameObjects.js"></script>-->
+<!--<script type="text/javascript" src="js/control.js"></script>-->
+<!--<script type="text/javascript" src="js/tic.js"></script>-->
+<!--<script type="text/javascript" src="js/gameCreator.js"></script>-->
+<!--<script type="text/javascript" src="js/gameHolder.js"></script>-->
+
+
+<script>
+
+	$(window).load(function () {
+		ploxfight.prepareImages();
+		console.log("laoded");
+		setTimeout(function () {
+			console.log("starting");
+
+//			var image_water = document.getElementById('water');
+//			context.drawImage(image_water, 100, 100);
+
+
+			var renderer = new ploxfight.Renderer();
+
+			var socket = io();
+			//	$('form').submit(function () {
+			//		socket.emit('chat message', $('#m').val());
+			//		$('#m').val('');
+			//		return false;
+			//	});
+			socket.on('chat message', function (msg) {
+				console.log("received message: " + msg);
+//		$('#messages').append($('<li>').text(msg));
+			});
+			socket.on('update', function (msg) {
+//		console.log("received update: " + msg);
+				var object = $.parseJSON(msg);
+//		console.log("the data is: ", JSON.stringify(object, null, 2));
+				renderer.render(object);
+			});
+
+			socket.emit('chat message', "rofl");
+		}, 500);
+	});
+
+
+</script>
+
+</body>
+
+</html>
