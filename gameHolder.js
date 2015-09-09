@@ -22,6 +22,7 @@ GameHolder.prototype.removePlayer = function (playerId) {
 GameHolder.prototype.startGame = function () {
 	console.log("Start GameHolder!");
 	this.game.start();
+	this.io.emit("start");
 };
 
 GameHolder.prototype.updatePosition = function (playerId, position) {

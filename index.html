@@ -43,44 +43,21 @@
 <!--<script type="text/javascript" src="js/collisionLine.js"></script>-->
 <script type="text/javascript" src="js/collision.js"></script>
 <!--<script type="text/javascript" src="js/gameObjects.js"></script>-->
-<!--<script type="text/javascript" src="js/control.js"></script>-->
+<script type="text/javascript" src="js/control.js"></script>
 <!--<script type="text/javascript" src="js/tic.js"></script>-->
 <!--<script type="text/javascript" src="js/gameCreator.js"></script>-->
 <!--<script type="text/javascript" src="js/gameHolder.js"></script>-->
+<script type="text/javascript" src="js/io.js"></script>
+<script type="text/javascript" src="js/localGame.js"></script>
 
 
 <script>
 
 	$(window).load(function () {
 		ploxfight.prepareImages();
-		console.log("laoded");
 		setTimeout(function () {
-			console.log("starting");
-
-//			var image_water = document.getElementById('water');
-//			context.drawImage(image_water, 100, 100);
-
-
-			var renderer = new ploxfight.Renderer();
-
-			var socket = io();
-			//	$('form').submit(function () {
-			//		socket.emit('chat message', $('#m').val());
-			//		$('#m').val('');
-			//		return false;
-			//	});
-			socket.on('chat message', function (msg) {
-				console.log("received message: " + msg);
-//		$('#messages').append($('<li>').text(msg));
-			});
-			socket.on('update', function (msg) {
-//		console.log("received update: " + msg);
-				var object = $.parseJSON(msg);
-//		console.log("the data is: ", JSON.stringify(object, null, 2));
-				renderer.render(object);
-			});
-
-			socket.emit('chat message', "rofl");
+			var localGame = new ploxfight.localGame();
+			localGame.start();
 		}, 500);
 	});
 

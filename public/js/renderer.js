@@ -1,6 +1,9 @@
 (function () {
 	var ploxfight = window.ploxfight = window.ploxfight || {};
 
+	//TODO: dubbletter av konstanter
+	ploxfight.TILE_HEIGHT = 100;
+	ploxfight.TILE_SIZE = 50;
 	ploxfight.shape = {};
 	ploxfight.shape.SQUARE = "SQUARE";
 	ploxfight.shape.CIRCLE = "CIRCLE";

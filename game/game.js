@@ -136,7 +136,6 @@ Game.prototype.start = function () {
 
 Game.prototype.stop = function () {
 	this.running = false;
-	ploxfight.stopControl();
 };
 
 ploxfight.Player = function Player(game, id, x, y) {
