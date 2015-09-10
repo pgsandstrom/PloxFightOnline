@@ -53,9 +53,8 @@ Tic.prototype.tic = function () {
 Tic.prototype.updateBoard = function () {
 	this.updateTiles();
 	this.updateBarrels();
-	this.checkPlayerState(this.game.player);
-	for (var i = 0; i < this.game.opponents.length; i++) {
-		var dude = this.game.opponents[i];
+	for (var i = 0; i < this.game.players.length; i++) {
+		var dude = this.game.players[i];
 		this.checkPlayerState(dude);
 	}
 
@@ -142,26 +141,22 @@ Tic.prototype.objectFall = function (object) {
 	}
 };
 
-Tic.prototype.handleMoves = function (player) {
-	for (var i = 0; i < this.game.opponents.length; i++) {
-		var dude = this.game.opponents[i];
-		ai.ai(this.game, dude);
-	}
+Tic.prototype.handleMoves = function () {
 
-	for (var i = 0; i < this.game.opponents.length; i++) {
-		var dude = this.game.opponents[i];
+	for (var i = 0; i < this.game.players.length; i++) {
+		var dude = this.game.players[i];
+		if(dude.ai) {
+			ai.ai(this.game, dude);
+		}
 		control.updateDude(dude, dude.moves);
 	}
-
-	control.updateDude(this.game.player, this.game.player.moves);
 };
 
 Tic.prototype.updateCollisions = function () {
 	var collisionables = [];
 
-	this.addPlayerCollision(collisionables, this.game.player);
-	for (var i = 0; i < this.game.opponents.length; i++) {
-		this.addPlayerCollision(collisionables, this.game.opponents[i]);
+	for (var i = 0; i < this.game.players.length; i++) {
+		this.addPlayerCollision(collisionables, this.game.players[i]);
 	}
 
 	collisionables.push.apply(collisionables, this.game.barrels);

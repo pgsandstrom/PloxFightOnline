@@ -26,7 +26,9 @@ GameHolder.prototype.startGame = function () {
 };
 
 GameHolder.prototype.updateMoves = function (playerId, moves) {
-	this.game.player.setMoves(moves);
+	//this.game.player.setMoves(moves);
+	var player = this.game.findPlayer(playerId);
+	player.setMoves(moves);
 };
 
 GameHolder.prototype.sendGame = function (game) {
@@ -61,7 +63,6 @@ var removePlayer = function (playerId) {
 
 var updateMoves = function (playerId, moves) {
 	gameHolder.updateMoves(playerId, moves);
-
 };
 
 

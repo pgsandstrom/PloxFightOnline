@@ -115,11 +115,6 @@
 			this.renderDude(player);
 		}
 
-		for (var i = 0; i < this.game.opponents.length; i++) {
-			var dude = this.game.opponents[i];
-			this.renderDude(dude);
-		}
-
 		for (var i = 0; i < this.game.barrels.length; i++) {
 			this.renderBarrel(this.game.barrels[i]);
 		}

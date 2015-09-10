@@ -28,9 +28,9 @@
 		});
 
 		socket.on('update', function (msg) {
-			console.log("received update: " + msg);
+			//console.log("received update: " + msg);
 			var object = $.parseJSON(msg);
-			console.log("the data is: ", JSON.stringify(object, null, 2));
+			//console.log("the data is: ", JSON.stringify(object, null, 2));
 			thisIO.renderer.render(object);
 
 			// TODO: Är detta det bästa? En sendControl för varje update...

@@ -17,10 +17,10 @@ var ai = function (game, dude) {
 	//	return;
 	//}
 
-	var xForce = game.player.x - dude.x;
-	var yForce = game.player.y - dude.y;
-	var degree = Math.atan2(xForce, yForce);
-	dude.degree = degree;
+	//var xForce = game.player.x - dude.x;
+	//var yForce = game.player.y - dude.y;
+	//var degree = Math.atan2(xForce, yForce);
+	dude.degree = 15;
 
 	var moves = {};
 

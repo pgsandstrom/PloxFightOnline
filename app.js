@@ -23,7 +23,7 @@ io.on('connection', function (socket) {
 	socket.on('moves', function (moves) {
 		gameInstance.updateMoves(playerId, moves);
 	});
-//
+
 	socket.on('disconnect', function () {
 		console.log("disconnect: " + playerId);
 		gameInstance.removePlayer(playerId);

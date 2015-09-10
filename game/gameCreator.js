@@ -4,7 +4,7 @@ var create = function (gameHolder) {
 	var eventTrigger = function (game) {
 		//TODO: denna ska gå på tid, inte tics...
 		//if (game.tic.ticCount % 100 === 0) {
-		//	game.opponents.push(this.newOpponent());
+		//	game.players.push(this.newOpponent());
 		//}
 	};
 

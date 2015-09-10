@@ -24,9 +24,9 @@ var Game = function Game(gameHolder, eventTrigger) {
 	this.playerIdGenerator = 0;
 	this.running = true;
 	this.board = this.newBoard();
-	this.player = this.addPlayer();
-	this.opponents = [];
-	this.opponents.push(this.newOpponent());
+	this.players = [];
+	//this.players.push(this.addPlayer());
+	this.players.push(this.newOpponent());
 
 	this.bullets = [];
 
@@ -48,9 +48,8 @@ Game.prototype.toJson = function () {
 	gameJson.board = this.board;
 	////TODO: Fixa s� players blir en array :S:S:S
 	gameJson.players = [];
-	gameJson.players.push(this.player.toJson());
-	gameJson.opponents = this.opponents.map(function (opponent) {
-		return opponent.toJson();
+	gameJson.players = this.players.map(function (player) {
+		return player.toJson();
 	});
 	gameJson.bullets = this.bullets;
 	gameJson.barrels = this.barrels;
@@ -87,24 +86,41 @@ var newTile = function (health) {
 
 Game.prototype.addPlayer = function (playerId) {
 	//TODO: g�r n�got med playerId
-	return new Player(this, this.playerIdGenerator++, 175, 175, false);
+	var player = new Player(this, playerId, 175, 175, false);
+	this.players.push(player);
 };
 
 Game.prototype.newOpponent = function () {
 	return new Player(this, this.playerIdGenerator++, 425, 425, true);
 };
 
-Game.prototype.playerDeath = function (deadDude) {
-	for (var i = 0; i < this.opponents.length; i++) {
-		var dude = this.opponents[i];
-		if (dude.id === deadDude.id) {
-			this.opponents.splice(i, 1);
-			break;
+Game.prototype.findPlayer = function(playerId) {
+	for (var i = 0; i < this.players.length; i++) {
+		var dude = this.players[i];
+		if(dude.id === playerId) {
+			return dude;
 		}
 	}
-	if (this.player.id === deadDude.id) {
+};
+
+Game.prototype.playerDeath = function (deadDude) {
+	var alivePlayers = 0;
+	for (var i = 0; i < this.players.length; i++) {
+		var dude = this.players[i];
+		if (dude.id === deadDude.id) {
+			this.players.splice(i, 1);
+			break;
+		} else {
+			if(!dude.ai) {
+				alivePlayers++;
+			}
+		}
+	}
+
+	if(alivePlayers < 2) {
 		this.stop();
 	}
+
 };
 
 Game.prototype.addBullet = function (bullet) {
