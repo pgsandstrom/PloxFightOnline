@@ -53,6 +53,7 @@
 			moves[ploxfight.MOUSE_X] = xForce;
 			moves[ploxfight.MOUSE_Y] = yForce;
 
+			ploxfight.key_hit = false;
 
 			socket.emit('moves', moves);
 		};

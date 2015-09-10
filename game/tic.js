@@ -170,10 +170,6 @@ Tic.prototype.handleMoves = function (player) {
 	control.updateDude(player, player.moves);
 };
 
-Tic.prototype.resetControl = function (player) {
-	ploxfight.key_hit = false;
-};
-
 Tic.prototype.updateCollisions = function () {
 	var collisionables = [];
 
