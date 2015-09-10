@@ -1,4 +1,6 @@
 (function () {
+	"use strict";
+
 	var ploxfight = window.ploxfight = window.ploxfight || {};
 
 	//TODO: dubbletter av konstanter
@@ -252,7 +254,7 @@
 	};
 
 
-	//TODO: Dessa är bara fulinflyttad här från collision.js. Skapa en graphics.js eller nått som vi har både i klient å server?
+	//TODO: Dessa ï¿½r bara fulinflyttad hï¿½r frï¿½n collision.js. Skapa en graphics.js eller nï¿½tt som vi har bï¿½de i klient ï¿½ server?
 	ploxfight.getSquareLines = function (square) {
 		var squareCorners = ploxfight.getSquareCorners(square);
 

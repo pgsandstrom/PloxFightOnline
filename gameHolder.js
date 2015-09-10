@@ -25,8 +25,8 @@ GameHolder.prototype.startGame = function () {
 	this.io.emit("start");
 };
 
-GameHolder.prototype.updatePosition = function (playerId, position) {
-	this.playerPositionMap[playerId] = position;
+GameHolder.prototype.updateMoves = function (playerId, moves) {
+	this.game.player.setMoves(moves);
 };
 
 GameHolder.prototype.sendGame = function (game) {
@@ -59,8 +59,8 @@ var removePlayer = function (playerId) {
 	}
 };
 
-var updatePosition = function (playerId) {
-	gameHolder.removePlayer(playerId);
+var updateMoves = function (playerId, moves) {
+	gameHolder.updateMoves(playerId, moves);
 
 };
 
@@ -68,4 +68,4 @@ var updatePosition = function (playerId) {
 exports.action = action;
 exports.addPlayer = addPlayer;
 exports.removePlayer = removePlayer;
-exports.updatePosition = updatePosition;
+exports.updateMoves = updateMoves;

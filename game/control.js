@@ -6,6 +6,10 @@ ploxfight.MOVE_HIT = "MOVE_HIT";
 
 var updateDude = function (dude, moves) {
 
+	if(moves == undefined) {
+		return;
+	}
+
 	if (dude.height < ploxfight.HEIGHT_KILL_CONTROL) {
 		return;
 	}
@@ -23,7 +27,7 @@ var updateDude = function (dude, moves) {
 		playerSpeed = Math.sqrt((playerSpeed * playerSpeed) / 2);
 	}
 
-	// Den utkommeterade koden i rörelsen är den gamla konstiga kontrollen
+	// Den utkommeterade koden i rï¿½relsen ï¿½r den gamla konstiga kontrollen
 	if (moves[ploxfight.MOVE_FORWARD]) {
 		//ploxfight.performMove(dude, xForce, yForce, playerSpeed);
 		ploxfight.performMove(dude, 0, -1, playerSpeed)

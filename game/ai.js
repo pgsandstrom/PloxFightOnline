@@ -38,7 +38,7 @@ var ai = function (game, dude) {
 	//	hitTimer -= ploxfight.GAME_TIC_TIME;
 	//}
 
-	control.updateDude(dude, moves);
+	dude.setMoves(moves);
 };
 
 exports.ai = ai;

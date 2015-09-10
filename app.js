@@ -20,8 +20,8 @@ io.on('connection', function (socket) {
 	console.log("connection: " + playerId);
 	gameInstance.addPlayer(io, playerId);
 
-	socket.on('position', function (position) {
-		gameInstance.updatePosition(playerId, position);
+	socket.on('moves', function (moves) {
+		gameInstance.updateMoves(playerId, moves);
 	});
 //
 	socket.on('disconnect', function () {

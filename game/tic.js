@@ -1,4 +1,5 @@
 var collision = require("./collision");
+var collisionLine = require("./collisionLine");
 var control = require("./control");
 var ai = require("./ai");
 
@@ -42,12 +43,19 @@ Tic.prototype.tic = function () {
 	this.updateBoard();
 
 	//all control stuff:
-	this.handleControl(this.game.player);
-	this.resetControl(this.game.player);
 	for (var i = 0; i < this.game.opponents.length; i++) {
 		var dude = this.game.opponents[i];
 		ai.ai(this.game, dude);
 	}
+
+	for (var i = 0; i < this.game.opponents.length; i++) {
+		var dude = this.game.opponents[i];
+		this.handleMoves(dude);
+	}
+
+	this.handleMoves(this.game.player);
+	//this.resetControl(this.game.player);
+
 
 	this.updateCollisions();
 
@@ -146,7 +154,7 @@ Tic.prototype.objectFall = function (object) {
 	}
 };
 
-Tic.prototype.handleControl = function (player) {
+Tic.prototype.handleMoves = function (player) {
 
 	if (player.height < ploxfight.HEIGHT_KILL_CONTROL) {
 		return;
@@ -167,7 +175,7 @@ Tic.prototype.handleControl = function (player) {
 	//moves[ploxfight.MOVE_RIGHT] = ploxfight.key_right;
 	//moves[ploxfight.MOVE_HIT] = ploxfight.key_hit;
 
-	control.updateDude(player, moves);
+	control.updateDude(player, player.moves);
 
 	//var postX = game.player.x;
 	//var postY = game.player.y;
@@ -201,7 +209,7 @@ Tic.prototype.updateCollisions = function () {
 	var bullets = this.game.bullets;
 	for (var i = 0; i < bullets.length; i++) {
 		var bullet = bullets[i];
-		var hitObject = ploxfight.checkCollisionLine(bullet, collisionables);
+		var hitObject = collisionLine.checkCollisionLine(bullet, collisionables);
 		if (hitObject !== undefined) {
 			hitObject.bulletHit(bullet);
 		}

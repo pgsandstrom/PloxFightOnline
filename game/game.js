@@ -1,4 +1,5 @@
 var tic = require('./tic');
+var gameObjects = require('./gameObjects');
 
 ploxfight.RENDER_TIC_TIME = 33;
 ploxfight.GAME_TIC_TIME = 33;
@@ -14,15 +15,6 @@ ploxfight.BOARD_SIZE = 12;
 ploxfight.TILE_SIZE = 50;
 ploxfight.TILE_HEIGHT = 100;	//the board is at height 0, the water is at -100
 ploxfight.HEIGHT_KILL_CONTROL = -12;	//the board is at height 0, the water is at -100
-
-ploxfight.key_forward = false;
-ploxfight.key_left = false;
-ploxfight.key_right = false;
-ploxfight.key_back = false;
-ploxfight.key_hit = false;
-
-ploxfight.mouseX = 0;
-ploxfight.mouseY = 0;
 
 var newGame = function (gameHolder, eventTrigger) {
 	return new Game(gameHolder, eventTrigger);
@@ -55,7 +47,7 @@ var Game = function Game(gameHolder, eventTrigger) {
 Game.prototype.toJson = function () {
 	var gameJson = {};
 	gameJson.board = this.board;
-	////TODO: Fixa så players blir en array :S:S:S
+	////TODO: Fixa sï¿½ players blir en array :S:S:S
 	gameJson.players = [];
 	gameJson.players.push(this.player.toJson());
 	gameJson.opponents = this.opponents.map(function (opponent) {
@@ -95,7 +87,7 @@ var newTile = function (health) {
 };
 
 Game.prototype.addPlayer = function (playerId) {
-	//TODO: gör något med playerId
+	//TODO: gï¿½r nï¿½got med playerId
 	return new Player(this, this.playerIdGenerator++, 175, 175);
 };
 
@@ -155,6 +147,8 @@ ploxfight.Player = function Player(game, id, x, y) {
 
 	this.loadFist = false;
 	this.tumbleProgress = 0;
+
+	this.moves = undefined;
 };
 
 var Player = ploxfight.Player;
@@ -179,7 +173,7 @@ Player.prototype.toJson = function () {
 };
 
 Player.prototype.shoot = function () {
-	var bullet = ploxfight.getBullet(this);
+	var bullet = new gameObjects.Bullet(this);
 	this.game.addBullet(bullet);
 };
 
@@ -191,6 +185,10 @@ Player.prototype.bulletHit = function (bullet) {
 Player.prototype.death = function () {
 	console.log("death");
 	this.game.playerDeath(this);
+};
+
+Player.prototype.setMoves = function(moves) {
+	this.moves = moves;
 };
 
 ploxfight.Barrel = function Barrel(x, y) {
