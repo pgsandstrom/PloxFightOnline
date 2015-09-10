@@ -14,6 +14,10 @@
 	var PLAYER_IMAGE_SIZE = 50;
 	var BARREL_IMAGE_SIZE = 50;
 
+	var $canvas = $("#canvas");
+	ploxfight.canvasX = $canvas.offset().left;
+	ploxfight.canvasY = $canvas.offset().top;
+
 	var canvas = document.getElementById('canvas');
 	var context = canvas.getContext('2d');
 

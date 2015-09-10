@@ -6,6 +6,8 @@
 	ploxfight.MOVE_LEFT = "MOVE_LEFT";
 	ploxfight.MOVE_RIGHT = "MOVE_RIGHT";
 	ploxfight.MOVE_HIT = "MOVE_HIT";
+	ploxfight.MOUSE_X = "MOUSE_X";
+	ploxfight.MOUSE_Y = "MOUSE_Y";
 
 
 	ploxfight.startControl = function () {

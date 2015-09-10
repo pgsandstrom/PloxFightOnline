@@ -38,6 +38,10 @@
 		});
 
 		ploxfight.sendMoves = function () {
+
+			var xForce = ploxfight.mouseX - ploxfight.canvasX;
+			var yForce = ploxfight.mouseY - ploxfight.canvasY;
+
 			var moves = {};
 
 			//player motion:
@@ -46,6 +50,9 @@
 			moves[ploxfight.MOVE_LEFT] = ploxfight.key_left;
 			moves[ploxfight.MOVE_RIGHT] = ploxfight.key_right;
 			moves[ploxfight.MOVE_HIT] = ploxfight.key_hit;
+			moves[ploxfight.MOUSE_X] = xForce;
+			moves[ploxfight.MOUSE_Y] = yForce;
+
 
 			socket.emit('moves', moves);
 		};

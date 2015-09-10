@@ -164,25 +164,10 @@ Tic.prototype.handleMoves = function (player) {
 		return;
 	}
 
+
 	player.degree = 5;	//TODO hämta från kontroll-mecket
 
-	var moves = {};
-
-	//player motion:
-	//moves[ploxfight.MOVE_FORWARD] = ploxfight.key_forward;
-	//moves[ploxfight.MOVE_BACKWARD] = ploxfight.key_back;
-	//moves[ploxfight.MOVE_LEFT] = ploxfight.key_left;
-	//moves[ploxfight.MOVE_RIGHT] = ploxfight.key_right;
-	//moves[ploxfight.MOVE_HIT] = ploxfight.key_hit;
-
 	control.updateDude(player, player.moves);
-
-	//var postX = game.player.x;
-	//var postY = game.player.y;
-	//var diffX = Math.abs(postX - preX);
-	//var diffY = Math.abs(postY - preY);
-	//var totalMoved = Math.sqrt(diffX * diffX + diffY * diffY);
-	//console.log("moved: " + totalMoved);
 };
 
 Tic.prototype.resetControl = function (player) {

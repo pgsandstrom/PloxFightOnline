@@ -3,6 +3,8 @@ ploxfight.MOVE_BACKWARD = "MOVE_BACKWARD";
 ploxfight.MOVE_LEFT = "MOVE_LEFT";
 ploxfight.MOVE_RIGHT = "MOVE_RIGHT";
 ploxfight.MOVE_HIT = "MOVE_HIT";
+ploxfight.MOUSE_X = "MOUSE_X";
+ploxfight.MOUSE_Y = "MOUSE_Y";
 
 var updateDude = function (dude, moves) {
 
@@ -18,9 +20,10 @@ var updateDude = function (dude, moves) {
 		return;
 	}
 
-	//xForce and yForce is calculated twice for human controlled players currently. Could be optimized
-	var xForce = Math.sin(dude.degree);
-	var yForce = Math.cos(dude.degree);
+	var xForce = moves[ploxfight.MOUSE_X] - dude.x;
+	var yForce = moves[ploxfight.MOUSE_Y] - dude.y;
+
+	dude.degree = Math.atan2(xForce, yForce);
 
 	var playerSpeed = ploxfight.PLAYER_SPEED;
 	if ((moves[ploxfight.MOVE_FORWARD] || moves[ploxfight.MOVE_BACKWARD]) && (moves[ploxfight.MOVE_LEFT] || moves[ploxfight.MOVE_RIGHT])) {
