@@ -42,19 +42,7 @@ Tic.prototype.tic = function () {
 	//TODO: Nu buggar det loss då vi uppdaterar fist-position före player-position osv :(
 	this.updateBoard();
 
-	//all control stuff:
-	for (var i = 0; i < this.game.opponents.length; i++) {
-		var dude = this.game.opponents[i];
-		ai.ai(this.game, dude);
-	}
-
-	for (var i = 0; i < this.game.opponents.length; i++) {
-		var dude = this.game.opponents[i];
-		this.handleMoves(dude);
-	}
-
-	this.handleMoves(this.game.player);
-	//this.resetControl(this.game.player);
+	this.handleMoves();
 
 
 	this.updateCollisions();
@@ -155,19 +143,17 @@ Tic.prototype.objectFall = function (object) {
 };
 
 Tic.prototype.handleMoves = function (player) {
-
-	if (player.height < ploxfight.HEIGHT_KILL_CONTROL) {
-		return;
+	for (var i = 0; i < this.game.opponents.length; i++) {
+		var dude = this.game.opponents[i];
+		ai.ai(this.game, dude);
 	}
 
-	if (player.tumbleProgress > 0) {
-		return;
+	for (var i = 0; i < this.game.opponents.length; i++) {
+		var dude = this.game.opponents[i];
+		control.updateDude(dude, dude.moves);
 	}
 
-
-	player.degree = 5;	//TODO hämta från kontroll-mecket
-
-	control.updateDude(player, player.moves);
+	control.updateDude(this.game.player, this.game.player.moves);
 };
 
 Tic.prototype.updateCollisions = function () {

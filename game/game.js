@@ -14,7 +14,6 @@ ploxfight.BULLET_LIFETIME = 20;
 ploxfight.BOARD_SIZE = 12;
 ploxfight.TILE_SIZE = 50;
 ploxfight.TILE_HEIGHT = 100;	//the board is at height 0, the water is at -100
-ploxfight.HEIGHT_KILL_CONTROL = -12;	//the board is at height 0, the water is at -100
 
 var newGame = function (gameHolder, eventTrigger) {
 	return new Game(gameHolder, eventTrigger);

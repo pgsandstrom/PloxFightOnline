@@ -6,6 +6,8 @@ ploxfight.MOVE_HIT = "MOVE_HIT";
 ploxfight.MOUSE_X = "MOUSE_X";
 ploxfight.MOUSE_Y = "MOUSE_Y";
 
+ploxfight.HEIGHT_KILL_CONTROL = -12;	//the board is at height 0, the water is at -100
+
 var updateDude = function (dude, moves) {
 
 	if(moves == undefined) {
