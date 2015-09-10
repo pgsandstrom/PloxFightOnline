@@ -20,13 +20,13 @@ var newGame = function (gameHolder, eventTrigger) {
 };
 
 var Game = function Game(gameHolder, eventTrigger) {
+	this.gameHolder = gameHolder;
 	this.eventTrigger = eventTrigger;
 	this.playerIdGenerator = 0;
 	this.running = true;
 	this.board = this.newBoard();
 	this.players = [];
-	//this.players.push(this.addPlayer());
-	this.players.push(this.newOpponent());
+	//this.players.push(this.newOpponent());
 
 	this.bullets = [];
 
@@ -86,7 +86,12 @@ var newTile = function (health) {
 
 Game.prototype.addPlayer = function (playerId) {
 	//TODO: g�r n�got med playerId
-	var player = new Player(this, playerId, 175, 175, false);
+	var player;
+	if (this.players.length == 0) {
+		player = new Player(this, playerId, 175, 175, false);
+	} else {
+		player = new Player(this, playerId, 425, 425, false);
+	}
 	this.players.push(player);
 };
 
@@ -94,10 +99,10 @@ Game.prototype.newOpponent = function () {
 	return new Player(this, this.playerIdGenerator++, 425, 425, true);
 };
 
-Game.prototype.findPlayer = function(playerId) {
+Game.prototype.findPlayer = function (playerId) {
 	for (var i = 0; i < this.players.length; i++) {
 		var dude = this.players[i];
-		if(dude.id === playerId) {
+		if (dude.id === playerId) {
 			return dude;
 		}
 	}
@@ -111,16 +116,24 @@ Game.prototype.playerDeath = function (deadDude) {
 			this.players.splice(i, 1);
 			break;
 		} else {
-			if(!dude.ai) {
+			if (!dude.ai) {
 				alivePlayers++;
 			}
 		}
 	}
 
-	if(alivePlayers < 2) {
-		this.stop();
+	if (alivePlayers < 2) {
+		this.restart(1000);
 	}
 
+};
+
+Game.prototype.restart = function (delay) {
+	var thisGame = this;
+	setTimeout(function () {
+		thisGame.stop();
+		thisGame.gameHolder.restartGame();
+	}, delay);
 };
 
 Game.prototype.addBullet = function (bullet) {
@@ -203,7 +216,7 @@ Player.prototype.death = function () {
 	this.game.playerDeath(this);
 };
 
-Player.prototype.setMoves = function(moves) {
+Player.prototype.setMoves = function (moves) {
 	this.moves = moves;
 };
 

@@ -2,20 +2,29 @@ var gameCreator = require('./game/gameCreator');
 
 var GameHolder = function GameHolder(io) {
 	this.io = io;
-	this.players = 0;
+	this.players = [];
+	this.playerCount = 0;
 	this.game = gameCreator.create(this);
 };
 
 GameHolder.prototype.addPlayer = function (playerId) {
-	this.players++;
-	if (this.players === 1) {
+	this.playerCount++;
+	this.players.push(playerId);
+	if (this.playerCount === 1) {
 		this.startGame();
 	}
 	this.game.addPlayer(playerId);
 };
 
 GameHolder.prototype.removePlayer = function (playerId) {
-	this.players--;
+	this.playerCount--;
+	for (var i = 0; i < this.players.length; i++) {
+		var dudeId = this.players[i];
+		if (dudeId === playerId) {
+			this.players.splice(i, 1);
+			break;
+		}
+	}
 	//this.game.removePlayer(playerId);
 };
 
@@ -25,26 +34,32 @@ GameHolder.prototype.startGame = function () {
 	this.io.emit("start");
 };
 
+GameHolder.prototype.restartGame = function () {
+	console.log("Restarting game!");
+	this.game = gameCreator.create(this);
+	var oldPlayers = this.players;
+	this.players = [];
+	this.playerCount = 0;
+	var thisGameHolder = this;
+	oldPlayers.forEach(function (playerId) {
+		thisGameHolder.addPlayer(playerId);
+	});
+};
+
 GameHolder.prototype.updateMoves = function (playerId, moves) {
-	//this.game.player.setMoves(moves);
 	var player = this.game.findPlayer(playerId);
-	player.setMoves(moves);
+	if (player != undefined) {
+		player.setMoves(moves);
+	}
 };
 
 GameHolder.prototype.sendGame = function (game) {
-	//var gameJson = JSON.stringify(game);
 	var gameJson = game.toJson();
 	var jsonString = JSON.stringify(gameJson);
-	//console.log(jsonString);
 	this.io.emit('update', jsonString);
-	//console.asdfasdfsadf();
 };
 
 var gameHolder;
-
-var action = function () {
-	console.log("omg action");
-};
 
 var addPlayer = function (io, playerId) {
 	if (gameHolder === undefined) {
@@ -55,7 +70,7 @@ var addPlayer = function (io, playerId) {
 
 var removePlayer = function (playerId) {
 	gameHolder.removePlayer(playerId);
-	if (gameHolder.players === 0) {
+	if (gameHolder.playerCount === 0) {
 		console.log("stopping game");
 		gameHolder = undefined;
 	}
@@ -66,7 +81,6 @@ var updateMoves = function (playerId, moves) {
 };
 
 
-exports.action = action;
 exports.addPlayer = addPlayer;
 exports.removePlayer = removePlayer;
 exports.updateMoves = updateMoves;
