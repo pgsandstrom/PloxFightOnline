@@ -10,7 +10,7 @@ ploxfight.HEIGHT_KILL_CONTROL = -12;	//the board is at height 0, the water is at
 
 var updateDude = function (dude, moves) {
 
-	if(moves == undefined) {
+	if (moves == undefined) {
 		return;
 	}
 
@@ -22,10 +22,12 @@ var updateDude = function (dude, moves) {
 		return;
 	}
 
-	var xForce = moves[ploxfight.MOUSE_X] - dude.x;
-	var yForce = moves[ploxfight.MOUSE_Y] - dude.y;
+	if (!dude.ai) {
+		var xForce = moves[ploxfight.MOUSE_X] - dude.x;
+		var yForce = moves[ploxfight.MOUSE_Y] - dude.y;
 
-	dude.degree = Math.atan2(xForce, yForce);
+		dude.degree = Math.atan2(xForce, yForce);
+	}
 
 	var playerSpeed = ploxfight.PLAYER_SPEED;
 	if ((moves[ploxfight.MOVE_FORWARD] || moves[ploxfight.MOVE_BACKWARD]) && (moves[ploxfight.MOVE_LEFT] || moves[ploxfight.MOVE_RIGHT])) {

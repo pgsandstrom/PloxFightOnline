@@ -87,11 +87,11 @@ var newTile = function (health) {
 
 Game.prototype.addPlayer = function (playerId) {
 	//TODO: g�r n�got med playerId
-	return new Player(this, this.playerIdGenerator++, 175, 175);
+	return new Player(this, this.playerIdGenerator++, 175, 175, false);
 };
 
 Game.prototype.newOpponent = function () {
-	return new Player(this, this.playerIdGenerator++, 425, 425);
+	return new Player(this, this.playerIdGenerator++, 425, 425, true);
 };
 
 Game.prototype.playerDeath = function (deadDude) {
@@ -129,10 +129,11 @@ Game.prototype.stop = function () {
 	this.running = false;
 };
 
-ploxfight.Player = function Player(game, id, x, y) {
+ploxfight.Player = function Player(game, id, x, y, ai) {
 	this.type = "dude";
 	this.game = game;
 	this.id = id;
+	this.ai = ai;
 	this.groupId = id;
 	this.health = 100;
 	this.height = 0;

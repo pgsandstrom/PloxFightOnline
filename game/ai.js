@@ -31,6 +31,7 @@ var ai = function (game, dude) {
 		waitTime -= ploxfight.GAME_TIC_TIME;
 	}
 
+	// Make the AI attack:
 	//if (hitTimer <= 0) {
 	//	moves[ploxfight.MOVE_HIT] = true;
 	//	hitTimer = HIT_FREQUENCY;
