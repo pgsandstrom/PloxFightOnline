@@ -31,8 +31,8 @@ var Game = function Game(gameHolder, eventTrigger) {
 	this.bullets = [];
 
 	this.barrels = [];
-	this.barrels.push(new ploxfight.Barrel());
-	this.barrels.push(new ploxfight.Barrel());
+	this.barrels.push(new Barrel(this));
+	this.barrels.push(new Barrel(this));
 
 	//ploxfight.startControl();
 
@@ -52,7 +52,7 @@ Game.prototype.toJson = function () {
 		return player.toJson();
 	});
 	gameJson.bullets = this.bullets;
-	gameJson.barrels = this.barrels;
+	gameJson.barrels = this.barrels;	//TODO: Spelet kommer krascha tills vi json:ar barrels ordentligt...
 	return gameJson;
 };
 
@@ -220,7 +220,8 @@ Player.prototype.setMoves = function (moves) {
 	this.moves = moves;
 };
 
-ploxfight.Barrel = function Barrel(x, y) {
+ploxfight.Barrel = function Barrel(game,x, y) {
+	this.game = game;
 	this.type = "barrel";
 	this.health = 100;
 	this.height = 0;
@@ -233,5 +234,9 @@ ploxfight.Barrel = function Barrel(x, y) {
 };
 
 var Barrel = ploxfight.Barrel;
+
+Barrel.prototype.bulletHit = function(bullet) {
+	this.game.removeBullet(bullet);
+};
 
 exports.newGame = newGame;
