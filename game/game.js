@@ -46,13 +46,14 @@ var Game = function Game(gameHolder, eventTrigger) {
 Game.prototype.toJson = function () {
 	var gameJson = {};
 	gameJson.board = this.board;
-	////TODO: Fixa s� players blir en array :S:S:S
 	gameJson.players = [];
 	gameJson.players = this.players.map(function (player) {
 		return player.toJson();
 	});
 	gameJson.bullets = this.bullets;
-	gameJson.barrels = this.barrels;	//TODO: Spelet kommer krascha tills vi json:ar barrels ordentligt...
+	gameJson.barrels = this.barrels.map(function (barrel) {
+		return barrel.toJson();
+	});
 	return gameJson;
 };
 
@@ -237,6 +238,19 @@ var Barrel = ploxfight.Barrel;
 
 Barrel.prototype.bulletHit = function(bullet) {
 	this.game.removeBullet(bullet);
+};
+
+Barrel.prototype.toJson = function () {
+	var bulletJson = {};
+	bulletJson.type = this.type;
+	bulletJson.health = this.health;
+	bulletJson.height = this.height;
+	bulletJson.x = this.x;
+	bulletJson.y = this.y;
+	bulletJson.shape = this.shape;
+	bulletJson.radius = this.radius;
+	bulletJson.degree = this.degree;
+	return bulletJson;
 };
 
 exports.newGame = newGame;
