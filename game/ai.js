@@ -9,17 +9,15 @@ var hitTimer = HIT_FREQUENCY;
 
 var ai = function (game, dude) {
 
-	//if (dude.height < ploxfight.HEIGHT_KILL_CONTROL) {
-	//	return;
-	//}
-	//
-	//if (dude.tumbleProgress > 0) {
-	//	return;
-	//}
+	// These are needed since the AI changes his angle here instead of in the "control" code.
+	// The angle is changed here because I'm lazy.
+	if (dude.height < ploxfight.HEIGHT_KILL_CONTROL) {
+		return;
+	}
+	if (dude.tumbleProgress > 0) {
+		return;
+	}
 
-	//var xForce = game.player.x - dude.x;
-	//var yForce = game.player.y - dude.y;
-	//var degree = Math.atan2(xForce, yForce);
 	dude.degree = 15;
 
 	var moves = {};

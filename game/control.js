@@ -3,6 +3,7 @@ ploxfight.MOVE_BACKWARD = "MOVE_BACKWARD";
 ploxfight.MOVE_LEFT = "MOVE_LEFT";
 ploxfight.MOVE_RIGHT = "MOVE_RIGHT";
 ploxfight.MOVE_HIT = "MOVE_HIT";
+ploxfight.MOVE_JUMP = "MOVE_JUMP";
 ploxfight.MOUSE_X = "MOUSE_X";
 ploxfight.MOUSE_Y = "MOUSE_Y";
 
@@ -61,6 +62,10 @@ var updateDude = function (dude, moves) {
 	if (moves[ploxfight.MOVE_HIT] && dude.fist === undefined) {
 		dude.loadFist = true;
 		dude.shoot();
+	}
+
+	if (moves[ploxfight.MOVE_JUMP] && dude.height === 0) {
+		dude.jumpProgress = ploxfight.JUMP_TIME;
 	}
 };
 

@@ -125,10 +125,27 @@ Tic.prototype.checkPlayerState = function (dude) {
 
 	if (dude.tumbleProgress > 0) {
 		dude.tumbleProgress -= ploxfight.GAME_TIC_TIME;
+		if (dude.tumbleProgress < 0) {
+			dude.tumbleProgress = 0;
+		}
 		var xForce = Math.sin(dude.degree);
 		var yForce = Math.cos(dude.degree);
 		var speed = ploxfight.TUMBLE_SPEED;
 		ploxfight.performMove(dude, xForce, yForce, speed);
+	}
+
+	if (dude.jumpProgress > 0) {
+		dude.jumpProgress -= ploxfight.GAME_TIC_TIME;
+		if (dude.jumpProgress < 0) {
+			dude.jumpProgress = 0;
+		}
+		if (dude.jumpProgress == 0) {
+			dude.height = 0;
+		} else if (dude.jumpProgress > ploxfight.JUMP_TIME / 2) {
+			dude.height += 10;
+		} else {
+			dude.height -= 10;
+		}
 	}
 };
 
@@ -145,7 +162,7 @@ Tic.prototype.handleMoves = function () {
 
 	for (var i = 0; i < this.game.players.length; i++) {
 		var dude = this.game.players[i];
-		if(dude.ai) {
+		if (dude.ai) {
 			ai.ai(this.game, dude);
 		}
 		control.updateDude(dude, dude.moves);

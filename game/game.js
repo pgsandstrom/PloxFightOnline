@@ -8,6 +8,7 @@ ploxfight.PLAYER_SPEED = 6;
 ploxfight.TUMBLE_SPEED = 12;
 ploxfight.FIST_TIME = 300;
 ploxfight.TUMBLE_TIME = 300;
+ploxfight.JUMP_TIME = 1000;
 
 ploxfight.BULLET_LIFETIME = 20;
 
@@ -176,7 +177,9 @@ ploxfight.Player = function Player(game, id, x, y, ai) {
 	this.pushability = 100;
 
 	this.loadFist = false;
+	// "Progress" things are ongoing if they are above 0
 	this.tumbleProgress = 0;
+	this.jumpProgress = 0;
 
 	this.moves = undefined;
 };

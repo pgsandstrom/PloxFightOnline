@@ -6,6 +6,7 @@
 	ploxfight.MOVE_LEFT = "MOVE_LEFT";
 	ploxfight.MOVE_RIGHT = "MOVE_RIGHT";
 	ploxfight.MOVE_HIT = "MOVE_HIT";
+	ploxfight.MOVE_JUMP = "MOVE_JUMP";
 	ploxfight.MOUSE_X = "MOUSE_X";
 	ploxfight.MOUSE_Y = "MOUSE_Y";
 
@@ -45,6 +46,10 @@
 			if (e.which == 68) { //d
 				ploxfight.key_right = true;
 			}
+			if (e.which == 32) { //space
+				ploxfight.key_jump = true;
+			}
+			//console.log("pressed: " + e.which);
 		});
 
 		$(document).keyup(function (e) {
@@ -59,6 +64,9 @@
 			}
 			if (e.which == 68) { //d
 				ploxfight.key_right = false;
+			}
+			if (e.which == 32) { //space
+				ploxfight.key_jump = false;
 			}
 		});
 	};

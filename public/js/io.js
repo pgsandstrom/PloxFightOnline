@@ -33,7 +33,7 @@
 			//console.log("the data is: ", JSON.stringify(object, null, 2));
 			thisIO.renderer.render(object);
 
-			// TODO: Är detta det bästa? En sendControl för varje update...
+			// TODO: �r detta det b�sta? En sendControl för varje update...
 			ploxfight.sendMoves();
 		});
 
@@ -50,6 +50,7 @@
 			moves[ploxfight.MOVE_LEFT] = ploxfight.key_left;
 			moves[ploxfight.MOVE_RIGHT] = ploxfight.key_right;
 			moves[ploxfight.MOVE_HIT] = ploxfight.key_hit;
+			moves[ploxfight.MOVE_JUMP] = ploxfight.key_jump;
 			moves[ploxfight.MOUSE_X] = xForce;
 			moves[ploxfight.MOUSE_Y] = yForce;
 

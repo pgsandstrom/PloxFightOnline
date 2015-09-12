@@ -168,7 +168,7 @@
 		context.translate(-object.x, -object.y);
 
 		if (object.shape === ploxfight.shape.SQUARE) {
-			paintSquareBorder(object);
+			//paintSquareBorder(object);
 			if (object.fist !== undefined) {
 				paintSquareBorder(object.fist);
 			}
