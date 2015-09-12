@@ -1,6 +1,6 @@
 "use strict";
 var checkCollisionLine = function (line, objectList) {
-	var closest = false;
+	var closest = false;	// Jag tror inte closest alltid är en boolean... det förklarar en del
 	var hitObject;
 	for (var i = 0; i < objectList.length; i++) {
 		var object = objectList[i];
@@ -16,7 +16,11 @@ var checkCollisionLine = function (line, objectList) {
 				hitObject = object;
 			}
 		} else if (object.shape === ploxfight.shape.CIRCLE) {
-			circleCollision(line, object);
+			var result = circleCollision(line, object);
+			// Vi har en enklare koll här, för jag fattar fan inte koden...
+			if (result) {
+				hitObject = object;
+			}
 		}
 	}
 
@@ -24,19 +28,55 @@ var checkCollisionLine = function (line, objectList) {
 };
 
 var circleCollision = function (line, circle) {
+	// Code from http://stackoverflow.com/a/1084899/249871
+	var d = new ploxfight.Vector(line.end.x - line.start.x, line.end.y - line.start.y);
+	var f = new ploxfight.Vector(line.start.x - circle.x, line.start.y - circle.y);
 
-	//var leftNormal = line.rotate(Math.PI * -0.5);
-	//TODO: jag tror även vi måste kolla när vi roterar den 90 grader åt andra hållet också.
-	//TODO: Det går att rotera snyggare också... fixa allt sånt här!
-	var leftNormal = new ploxfight.Vector(line.end.x - line.start.x, line.end.y - line.start.y, Math.PI * -0.5);
+	var a = d.dot(d);
+	var b = 2 * f.dot(d);
+	var c = f.dot(f) - circle.radius * circle.radius;
 
-	//calculating line's perpendicular distance to ball
-	var c1_circle = new ploxfight.Vector(circle.x - line.start.x, circle.y - line.start.y);
-	c1_circle.project(leftNormal);
-	var length = c1_circle.len();
+	var discriminant = b * b - 4 * a * c;
+	if (discriminant < 0) {
+		// no intersection
+		return false;
+	} else {
+		// ray didn't totally miss sphere,
+		// so there is a solution to
+		// the equation.
 
-	if (length <= circle.radius) {
-		//console.log("plox with the circle");
+		discriminant = Math.sqrt(discriminant);
+
+		// either solution may be on or off the ray so need to test both
+		// t1 is always the smaller value, because BOTH discriminant and
+		// a are nonnegative.
+		var t1 = (-b - discriminant) / (2 * a);
+		var t2 = (-b + discriminant) / (2 * a);
+
+		// 3x HIT cases:
+		//          -o->             --|-->  |            |  --|->
+		// Impale(t1 hit,t2 hit), Poke(t1 hit,t2>1), ExitWound(t1<0, t2 hit),
+
+		// 3x MISS cases:
+		//       ->  o                     o ->              | -> |
+		// FallShort (t1>1,t2>1), Past (t1<0,t2<0), CompletelyInside(t1<0, t2>1)
+
+		if (t1 >= 0 && t1 <= 1) {
+			// t1 is the intersection, and it's closer than t2
+			// (since t1 uses -b - discriminant)
+			// Impale, Poke
+			return true;
+		}
+
+		// here t1 didn't intersect so we are either started
+		// inside the sphere or completely past it
+		if (t2 >= 0 && t2 <= 1) {
+			// ExitWound
+			return true;
+		}
+
+		// no intn: FallShort, Past, CompletelyInside
+		return false;
 	}
 };
 
