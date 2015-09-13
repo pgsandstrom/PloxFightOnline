@@ -29,10 +29,6 @@ ploxfight.getFist = function (dude) {
 	return fist;
 };
 
-var getBullet = function (dude) {
-	return new Bullet(dude);
-};
-
 var bulletIdGenerator = 0;
 
 var Bullet = function Bullet(dude) {

@@ -61,7 +61,7 @@ var updateDude = function (dude, moves) {
 
 	if (moves[ploxfight.MOVE_HIT] && dude.fist === undefined) {
 		dude.loadFist = true;
-		dude.shoot();
+		//dude.shoot();
 	}
 
 	if (moves[ploxfight.MOVE_JUMP] && dude.height === 0) {

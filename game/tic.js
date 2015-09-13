@@ -175,6 +175,13 @@ Tic.prototype.updateCollisions = function () {
 	collisionables.push.apply(collisionables, this.game.players);
 	collisionables.push.apply(collisionables, this.game.barrels);
 
+	this.game.players.forEach(function(player) {
+		if(player.fist !== undefined) {
+			collisionables.push(player.fist);
+		}
+	});
+
+
 	for (var i = 0; i < collisionables.length; i++) {
 		var object1 = collisionables[i];
 		for (var j = i + 1; j < collisionables.length; j++) {
@@ -188,7 +195,7 @@ Tic.prototype.updateCollisions = function () {
 		var bullet = bullets[i];
 		var hitObject = collisionLine.checkCollisionLine(bullet, collisionables);
 		if (hitObject !== undefined) {
-			hitObject.bulletHit(bullet);	//TODO: undefined is not a function
+			hitObject.bulletHit(bullet);
 		}
 	}
 };

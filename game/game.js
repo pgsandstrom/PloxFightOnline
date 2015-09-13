@@ -166,6 +166,8 @@ ploxfight.Player = function Player(game, id, x, y, ai) {
 	this.tumbleProgress = 0;
 	this.jumpProgress = 0;
 
+	this.fist = undefined; //fist has a "fistProgress" inside of it when it exists
+
 	this.moves = undefined;
 };
 
@@ -185,7 +187,8 @@ Player.prototype.toJson = function () {
 	playerJson.shapeWidth = this.shapeWidth;
 	playerJson.shapeHeight = this.shapeHeight;
 	playerJson.pushability = this.pushability;
-	playerJson.loadFist = this.loadFist;
+	//playerJson.loadFist = this.loadFist;
+	playerJson.fist = this.fist;
 	playerJson.tumbleProgress = this.tumbleProgress;
 	return playerJson;
 };
