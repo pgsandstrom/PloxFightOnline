@@ -12,20 +12,9 @@
 		var thisIO = this;
 
 		var socket = io();
-		//	$('form').submit(function () {
-		//		socket.emit('chat message', $('#m').val());
-		//		$('#m').val('');
-		//		return false;
-		//	});
 
 		socket.on('start', function (msg) {
-			console.log("received start message!");
-			ploxfight.startControl();
-		});
-
-		socket.on('chat message', function (msg) {
-			//console.log("received message: " + msg);
-//		$('#messages').append($('<li>').text(msg));
+			//console.log("received start message!");
 		});
 
 		socket.on('update', function (msg) {

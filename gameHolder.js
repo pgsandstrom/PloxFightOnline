@@ -25,13 +25,12 @@ GameHolder.prototype.removePlayer = function (playerId) {
 			break;
 		}
 	}
-	//this.game.removePlayer(playerId);
+	this.game.removePlayer(playerId);
 };
 
 GameHolder.prototype.startGame = function () {
-	console.log("Start GameHolder!");
 	this.game.start();
-	this.io.emit("start");
+	//this.io.emit("start");
 };
 
 GameHolder.prototype.restartGame = function () {
@@ -44,6 +43,10 @@ GameHolder.prototype.restartGame = function () {
 	oldPlayers.forEach(function (playerId) {
 		thisGameHolder.addPlayer(playerId);
 	});
+};
+
+GameHolder.prototype.stopGame = function () {
+	this.game.stop();
 };
 
 GameHolder.prototype.updateMoves = function (playerId, moves) {
@@ -72,6 +75,7 @@ var removePlayer = function (playerId) {
 	gameHolder.removePlayer(playerId);
 	if (gameHolder.playerCount === 0) {
 		console.log("stopping game");
+		gameHolder.stopGame();
 		gameHolder = undefined;
 	}
 };

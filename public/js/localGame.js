@@ -14,7 +14,7 @@
 		setTimeout(function () {
 			console.log("starting");
 
-
+			ploxfight.startControl();
 			var renderer = new ploxfight.Renderer();
 			var io = new ploxfight.IO(renderer);
 			io.start();

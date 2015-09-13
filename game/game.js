@@ -72,7 +72,6 @@ var newTile = function (health) {
 };
 
 Game.prototype.addPlayer = function (playerId) {
-	//TODO: g�r n�got med playerId
 	var player;
 	if (this.players.length == 0) {
 		player = new Player(this, playerId, 175, 175, false);
@@ -80,6 +79,16 @@ Game.prototype.addPlayer = function (playerId) {
 		player = new Player(this, playerId, 425, 425, false);
 	}
 	this.players.push(player);
+};
+
+Game.prototype.removePlayer = function (playerId) {
+	for (var i = 0; i < this.players.length; i++) {
+		var dude = this.players[i];
+		if (dude.id === playerId) {
+			this.players.splice(i, 1);
+			break;
+		}
+	}
 };
 
 Game.prototype.newOpponent = function () {
@@ -204,7 +213,6 @@ Player.prototype.bulletHit = function (bullet) {
 };
 
 Player.prototype.death = function () {
-	console.log("death");
 	this.game.playerDeath(this);
 };
 

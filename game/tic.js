@@ -29,6 +29,8 @@ Tic.prototype.ticRepeater = function (stalled) {
 		//console.log("GAME TIC: " + time);
 		if (tic.game.running) {
 			tic.ticRepeater(time);
+		} else {
+			console.log("ticker stopping");
 		}
 	}, ploxfight.GAME_TIC_TIME - stalled);
 };
@@ -43,7 +45,6 @@ Tic.prototype.tic = function () {
 	this.updateBoard();
 
 	this.handleMoves();
-
 
 	this.updateCollisions();
 
@@ -103,7 +104,11 @@ Tic.prototype.checkPlayerState = function (dude) {
 
 	// update the tile the dude is standing on:
 	var tile = this.game.board[(dude.y / ploxfight.TILE_SIZE) | 0][(dude.x / ploxfight.TILE_SIZE) | 0];
-	if (tile.breaking <= 0) {
+
+
+	if (tile === undefined) {
+		console.log("player outside board");
+	} else if (tile.breaking <= 0) {
 		this.objectFall(dude);
 	} else {
 		if (tile.health > 0) {
@@ -175,8 +180,8 @@ Tic.prototype.updateCollisions = function () {
 	collisionables.push.apply(collisionables, this.game.players);
 	collisionables.push.apply(collisionables, this.game.barrels);
 
-	this.game.players.forEach(function(player) {
-		if(player.fist !== undefined) {
+	this.game.players.forEach(function (player) {
+		if (player.fist !== undefined) {
 			collisionables.push(player.fist);
 		}
 	});
