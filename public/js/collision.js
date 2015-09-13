@@ -1,6 +1,6 @@
 (function () {
+	"use strict";
 	var ploxfight = window.ploxfight = window.ploxfight || {};
-
 
 	ploxfight.getDistance = function (x1, y1, x2, y2) {
 		var xDiff = Math.abs(x1 - x2);
@@ -8,8 +8,8 @@
 		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 	};
 
-// Collision logic taken from here: http://jsfiddle.net/ARTsinn/FpEZf/
-// If the link is dead, just check fullCollisionStuffExample.js
+	// Collision logic taken from here: http://jsfiddle.net/ARTsinn/FpEZf/
+	// If the link is dead, just check fullCollisionStuffExample.js
 
 	var response = new Response();
 

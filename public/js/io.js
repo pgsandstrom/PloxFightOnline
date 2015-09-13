@@ -1,4 +1,5 @@
 (function () {
+	"use strict";
 	var ploxfight = window.ploxfight = window.ploxfight || {};
 
 	ploxfight.IO = function IO(renderer) {

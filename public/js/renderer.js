@@ -1,6 +1,5 @@
 (function () {
 	"use strict";
-
 	var ploxfight = window.ploxfight = window.ploxfight || {};
 
 	//TODO: dubbletter av konstanter
@@ -10,6 +9,8 @@
 	ploxfight.shape.SQUARE = "SQUARE";
 	ploxfight.shape.CIRCLE = "CIRCLE";
 	ploxfight.shape.LINE = "LINE";
+
+	ploxfight.RENDER_TIC_TIME = 33;
 
 	var PLAYER_IMAGE_SIZE = 50;
 	var BARREL_IMAGE_SIZE = 50;
@@ -50,6 +51,7 @@
 
 	var Renderer = ploxfight.Renderer;
 
+	// Currently not used since we render when we get an update from the server:
 	Renderer.prototype.startRender = function () {
 		var renderer = this;
 		var repeater = function (stalled) {

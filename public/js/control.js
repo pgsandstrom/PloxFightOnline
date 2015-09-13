@@ -1,4 +1,5 @@
 (function () {
+	"use strict";
 	var ploxfight = window.ploxfight = window.ploxfight || {};
 
 	ploxfight.MOVE_FORWARD = "MOVE_FORWARD";

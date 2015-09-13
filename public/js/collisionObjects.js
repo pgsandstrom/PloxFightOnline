@@ -1,8 +1,7 @@
 (function () {
+	"use strict";
 	var ploxfight = window.ploxfight = window.ploxfight || {};
 
-
-	"use strict";
 	var Vector = function (x, y, degree) {
 		if (degree === undefined) {
 			this.x = x || 0;
