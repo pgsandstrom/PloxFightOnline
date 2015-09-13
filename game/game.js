@@ -10,6 +10,7 @@ var Game = function Game(gameHolder, eventTrigger) {
 	this.eventTrigger = eventTrigger;
 	this.playerIdGenerator = 0;
 	this.running = true;
+	this.restarting = false;
 	this.board = this.newBoard();
 	this.players = [];
 	//this.players.push(this.newOpponent());
@@ -118,13 +119,14 @@ Game.prototype.playerDeath = function (deadDude) {
 		}
 	}
 
-	if (alivePlayers < 2) {
+	if (alivePlayers  < 2 && !this.restarting) {
 		this.restart(1000);
 	}
 
 };
 
 Game.prototype.restart = function (delay) {
+	this.restarting = true;
 	var thisGame = this;
 	setTimeout(function () {
 		thisGame.stop();

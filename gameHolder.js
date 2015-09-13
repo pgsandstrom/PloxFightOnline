@@ -10,9 +10,6 @@ var GameHolder = function GameHolder(io) {
 GameHolder.prototype.addPlayer = function (playerId) {
 	this.playerCount++;
 	this.players.push(playerId);
-	if (this.playerCount === 1) {
-		this.startGame();
-	}
 	this.game.addPlayer(playerId);
 };
 
@@ -35,6 +32,7 @@ GameHolder.prototype.startGame = function () {
 
 GameHolder.prototype.restartGame = function () {
 	console.log("Restarting game!");
+	this.game.stop();
 	this.game = gameCreator.create(this);
 	var oldPlayers = this.players;
 	this.players = [];
@@ -43,6 +41,7 @@ GameHolder.prototype.restartGame = function () {
 	oldPlayers.forEach(function (playerId) {
 		thisGameHolder.addPlayer(playerId);
 	});
+	this.game.start();
 };
 
 GameHolder.prototype.stopGame = function () {
@@ -67,8 +66,11 @@ var gameHolder;
 var addPlayer = function (io, playerId) {
 	if (gameHolder === undefined) {
 		gameHolder = new GameHolder(io);
+		gameHolder.addPlayer(playerId);
+		gameHolder.startGame();
+	} else {
+		gameHolder.addPlayer(playerId);
 	}
-	gameHolder.addPlayer(playerId);
 };
 
 var removePlayer = function (playerId) {
