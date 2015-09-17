@@ -1,5 +1,10 @@
 var gameCreator = require('./game/gameCreator');
 
+var PlayerHolder = function PlayerHolder(id, number) {
+	this.id = id;
+	this.number = number;
+};
+
 var GameHolder = function GameHolder(io) {
 	this.io = io;
 	this.players = [];
@@ -7,16 +12,19 @@ var GameHolder = function GameHolder(io) {
 	this.game = gameCreator.create(this);
 };
 
-GameHolder.prototype.addPlayer = function (playerId) {
+GameHolder.prototype.addPlayer = function (playerId, playerNumber) {
 	this.playerCount++;
-	this.players.push(playerId);
-	this.game.addPlayer(playerId);
+	if (playerNumber == undefined) {
+		playerNumber = this.getLowestFreePlayerNumber();
+	}
+	this.players.push(new PlayerHolder(playerId, playerNumber));
+	this.game.addPlayer(playerId, playerNumber);
 };
 
 GameHolder.prototype.removePlayer = function (playerId) {
 	this.playerCount--;
 	for (var i = 0; i < this.players.length; i++) {
-		var dudeId = this.players[i];
+		var dudeId = this.players[i].id;
 		if (dudeId === playerId) {
 			this.players.splice(i, 1);
 			break;
@@ -38,8 +46,8 @@ GameHolder.prototype.restartGame = function () {
 	this.players = [];
 	this.playerCount = 0;
 	var thisGameHolder = this;
-	oldPlayers.forEach(function (playerId) {
-		thisGameHolder.addPlayer(playerId);
+	oldPlayers.forEach(function (player) {
+		thisGameHolder.addPlayer(player.id, player.number);
 	});
 	this.game.start();
 };
@@ -49,7 +57,7 @@ GameHolder.prototype.stopGame = function () {
 };
 
 GameHolder.prototype.updateMoves = function (playerId, moves) {
-	var player = this.game.findPlayer(playerId);
+	var player = this.game.getPlayer(playerId);
 	if (player != undefined) {
 		player.setMoves(moves);
 	}
@@ -59,6 +67,24 @@ GameHolder.prototype.sendGame = function (game) {
 	var gameJson = game.toJson();
 	var jsonString = JSON.stringify(gameJson);
 	this.io.emit('update', jsonString);
+};
+
+GameHolder.prototype.getLowestFreePlayerNumber = function () {
+	if (this.players.length == 0) {
+		return 0;
+	}
+
+	var playerSlots = new Array(64);
+	this.players.forEach(function (player) {
+		playerSlots[player.number] = true;
+	});
+	for (var i = 0; i < playerSlots.length; i++) {
+		if (playerSlots[i] == undefined) {
+			console.log("got player number " + i);
+			return i;
+		}
+	}
+	console.log("buggy bug");
 };
 
 var gameHolder;
@@ -76,7 +102,7 @@ var addPlayer = function (io, playerId) {
 var removePlayer = function (playerId) {
 	gameHolder.removePlayer(playerId);
 	if (gameHolder.playerCount === 0) {
-		console.log("stopping game");
+		//console.log("stopping game");
 		gameHolder.stopGame();
 		gameHolder = undefined;
 	}

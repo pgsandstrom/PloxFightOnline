@@ -76,6 +76,6 @@ Bullet.prototype.update = function () {
 
 	this.age++;
 	return this.age >= ploxfight.BULLET_LIFETIME;
-}
+};
 
 exports.Bullet = Bullet;

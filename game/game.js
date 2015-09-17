@@ -72,12 +72,12 @@ var newTile = function (health) {
 	}
 };
 
-Game.prototype.addPlayer = function (playerId) {
+Game.prototype.addPlayer = function (playerId, playerNumber) {
 	var player;
 	if (this.players.length == 0) {
-		player = new Player(this, playerId, 175, 175, false);
+		player = new Player(this, playerId, playerNumber, 175, 175, false);
 	} else {
-		player = new Player(this, playerId, 425, 425, false);
+		player = new Player(this, playerId, playerNumber, 425, 425, false);
 	}
 	this.players.push(player);
 };
@@ -93,10 +93,12 @@ Game.prototype.removePlayer = function (playerId) {
 };
 
 Game.prototype.newOpponent = function () {
-	return new Player(this, this.playerIdGenerator++, 425, 425, true);
+	//TODO: Gotta respect the playerNumber or something. Hard problem to solve, since gameHolder holds the playerNumbers... Cpu holds own color? Allied Cpu? Then what?
+	var tempPlayerNumber = 0;
+	return new Player(this, this.playerIdGenerator++, tempPlayerNumber, 425, 425, true);
 };
 
-Game.prototype.findPlayer = function (playerId) {
+Game.prototype.getPlayer = function (playerId) {
 	for (var i = 0; i < this.players.length; i++) {
 		var dude = this.players[i];
 		if (dude.id === playerId) {
@@ -119,7 +121,7 @@ Game.prototype.playerDeath = function (deadDude) {
 		}
 	}
 
-	if (alivePlayers  < 2 && !this.restarting) {
+	if (alivePlayers < 2 && !this.restarting) {
 		this.restart(1000);
 	}
 
@@ -156,10 +158,11 @@ Game.prototype.stop = function () {
 	this.running = false;
 };
 
-ploxfight.Player = function Player(game, id, x, y, ai) {
+ploxfight.Player = function Player(game, id, playerNumber, x, y, ai) {
 	this.type = "dude";
 	this.game = game;
-	this.id = id;
+	this.id = id;	//TODO: Behövs denna?
+	this.playerNumber = playerNumber;
 	this.ai = ai;
 	this.groupId = id;
 	this.health = 100;
@@ -188,6 +191,7 @@ Player.prototype.toJson = function () {
 	var playerJson = {};
 	playerJson.type = this.type;
 	playerJson.id = this.id;
+	playerJson.playerNumber = this.playerNumber;
 	playerJson.groupId = this.groupId;
 	playerJson.health = this.health;
 	playerJson.height = this.height;
@@ -222,7 +226,7 @@ Player.prototype.setMoves = function (moves) {
 	this.moves = moves;
 };
 
-ploxfight.Barrel = function Barrel(game,x, y) {
+ploxfight.Barrel = function Barrel(game, x, y) {
 	this.game = game;
 	this.type = "barrel";
 	this.health = 100;
@@ -237,7 +241,7 @@ ploxfight.Barrel = function Barrel(game,x, y) {
 
 var Barrel = ploxfight.Barrel;
 
-Barrel.prototype.bulletHit = function(bullet) {
+Barrel.prototype.bulletHit = function (bullet) {
 	this.game.removeBullet(bullet);
 };
 

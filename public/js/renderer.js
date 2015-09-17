@@ -22,17 +22,6 @@
 	var canvas = document.getElementById('canvas');
 	var context = canvas.getContext('2d');
 
-	var image_player = document.getElementById('player');
-	var image_player_hit = document.getElementById('player-hit');
-	var image_player_tumbling = document.getElementById('player-tumbling');
-	//var image_opponent = document.getElementById('opponent');
-	//var image_opponent_hit = document.getElementById('opponent-hit');
-	//var image_opponent_tumbling = document.getElementById('opponent-tumbling');
-	var image_opponent;
-	var image_opponent_hit;
-	var image_opponent_tumbling;
-
-
 	var image_tile1 = document.getElementById('tile-1');
 	var image_tile2 = document.getElementById('tile-2');
 	var image_tile3 = document.getElementById('tile-3');
@@ -141,19 +130,12 @@
 	};
 
 	Renderer.prototype.renderDude = function (dude) {
+		var playerGraphic = ploxfight.playerImages[dude.playerNumber];
 		var image;
 		if (dude.tumbleProgress <= 0) {
-			if (dude.id === 0) {
-				image = image_player;
-			} else {
-				image = image_opponent;
-			}
+			image = playerGraphic.player;
 		} else {
-			if (dude.id === 0) {
-				image = image_player_tumbling;
-			} else {
-				image = image_opponent_tumbling;
-			}
+			image = playerGraphic.playerTumbling;
 		}
 		renderObject(dude, image, PLAYER_IMAGE_SIZE);
 	};
@@ -194,66 +176,6 @@
 			context.stroke();
 		}
 	};
-
-	function fixImage(context, x, y, width, height, filter) {
-
-		if (filter === 1) {
-			return;
-		}
-
-		//var timeInMs = Date.now();
-		var imageData = context.getImageData(x, y, width, height);
-		var data = imageData.data;
-
-		for (var i = 0; i < data.length; i += 4) {
-			// red
-			if (filter === 2) {
-				data[i] = 255 - data[i];
-			}
-			// green
-			if (filter === 3) {
-				data[i + 1] = 255 - data[i + 1];
-			}
-			// blue
-			if (filter === 4) {
-				data[i + 2] = 255 - data[i + 2];
-			}
-		}
-
-		// overwrite original image
-		context.putImageData(imageData, x, y);
-
-		//timeInMs = Date.now() - timeInMs;
-		//console.log(timeInMs);
-	}
-
-	ploxfight.prepareImages = function () {
-		var canvasTemp = document.getElementById('canvas-temp');
-		var contextTemp = canvasTemp.getContext('2d');
-		var data;
-
-		contextTemp.drawImage(image_player, 0, 0, 50, 50);
-		fixImage(contextTemp, 0, 0, 50, 50, 2);
-		data = canvasTemp.toDataURL();
-		image_opponent = new Image();
-		image_opponent.src = data;
-		contextTemp.clearRect(0, 0, 50, 50);
-
-		contextTemp.drawImage(image_player_hit, 0, 0, 50, 50);
-		fixImage(contextTemp, 0, 0, 50, 50, 2);
-		data = canvasTemp.toDataURL();
-		image_opponent_hit = new Image();
-		image_opponent_hit.src = data;
-		contextTemp.clearRect(0, 0, 50, 50);
-
-		contextTemp.drawImage(image_player_tumbling, 0, 0, 50, 50);
-		fixImage(contextTemp, 0, 0, 50, 50, 2);
-		data = canvasTemp.toDataURL();
-		image_opponent_tumbling = new Image();
-		image_opponent_tumbling.src = data;
-		contextTemp.clearRect(0, 0, 50, 50);
-	};
-
 
 	//TODO: Dessa �r bara fulinflyttad h�r fr�n collision.js. Skapa en graphics.js eller n�tt som vi har b�de i klient � server?
 	ploxfight.getSquareLines = function (square) {

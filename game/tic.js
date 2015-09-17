@@ -14,6 +14,7 @@ var Tic = function Tic(gameHolder, game) {
 };
 
 Tic.prototype.startTic = function () {
+	console.log("ticker starting");
 	this.ticRepeater(0);
 };
 
