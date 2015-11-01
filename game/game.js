@@ -76,8 +76,12 @@ Game.prototype.addPlayer = function (playerId, playerNumber) {
 	var player;
 	if (this.players.length == 0) {
 		player = new Player(this, playerId, playerNumber, 175, 175, false);
-	} else {
+	} else if (this.players.length == 1) {
 		player = new Player(this, playerId, playerNumber, 425, 425, false);
+	} else if (this.players.length == 2) {
+		player = new Player(this, playerId, playerNumber, 175, 425, false);
+	} else {
+		player = new Player(this, playerId, playerNumber, 425, 175, false);
 	}
 	this.players.push(player);
 };

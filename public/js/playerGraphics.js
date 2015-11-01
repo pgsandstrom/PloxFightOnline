@@ -74,6 +74,11 @@
 			if (filter === 3) {
 				data[i + 2] = 255 - data[i + 2];
 			}
+
+			// yellow
+			if (filter === 4) {
+				data[i] = 255 - data[i + 2];
+			}
 		}
 
 		// overwrite original image
